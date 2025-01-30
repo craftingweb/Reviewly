@@ -4,24 +4,37 @@ import people from "./data";
 
 const App = () => {
   const [index, setIndex] = useState(0);
+
+  if (index === people.length) {
+    return setIndex(0);
+  }
+
+  if (index === -1) {
+    return setIndex(people.length - 1);
+  }
+
   const nextPerson = () => {
-    setIndex((currentIndex) => {
-      const newIndex = currentIndex + 1;
-      if (newIndex > people.length - 1) {
-        return 0;
-      }
+    setIndex((currentState) => {
+      const newIndex = currentState + 1;
       return newIndex;
     });
   };
+
   const prevPerson = () => {
-    setIndex((currentIndex) => {
-      const newIndex = currentIndex - 1;
-      if (newIndex < 0) {
-        return people.length - 1;
-      }
+    setIndex((currentState) => {
+      const newIndex = currentState - 1;
       return newIndex;
     });
   };
+
+  const randomPerson = () => {
+    let randomNumber = Math.floor(Math.random() * people.length);
+    if (randomNumber === index) {
+      randomNumber = index + 1;
+    }
+    return setIndex(randomNumber);
+  };
+
   const { job, name, image, text } = people[index];
   return (
     <main>
@@ -43,6 +56,9 @@ const App = () => {
             <FaChevronRight />
           </button>
         </div>
+        <button className="btn hipster" onClick={randomPerson}>
+          Surprise Me
+        </button>
       </article>
     </main>
   );
